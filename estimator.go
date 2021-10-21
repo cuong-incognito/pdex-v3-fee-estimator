@@ -5,6 +5,7 @@ import (
 	"math/big"
 
 	"github.com/cuong-incognito/pdex-v3-fee-estimator/jsonresult"
+	"github.com/incognitochain/incognito-chain/common"
 )
 
 func EstimateFeeInSellToken(
@@ -69,6 +70,9 @@ func EstimatedFeeInPRV(
 	}
 
 	rate := getPriceAgainstPRV(sellToken, pdexState)
+	if sellToken == common.PRVIDStr {
+		rate = [3]*big.Int{new(big.Int).SetInt64(1), new(big.Int).SetInt64(1), new(big.Int).SetInt64(1)}
+	}
 	if rate[2].Uint64() == 0 {
 		return 0, fmt.Errorf("Could not find pair sellToken - PRV")
 	}
